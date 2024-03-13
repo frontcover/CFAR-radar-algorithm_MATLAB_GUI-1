@@ -1,59 +1,59 @@
-## 1、内容简介
- &nbsp;  &nbsp; &nbsp;  &nbsp;利用MATLAB GUI设计平台，设计多算法雷达一维恒虚警检测CFAR可视化界面，通过选择噪声类型、目标类型、算法类型，手动输入相关参数，可视化显示噪声波形与目标检测的回波-检测门限波形图。运行cfar.m即可调用GUI进行参数输入输出。
- ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200513184019391.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjc5NTcz,size_16,color_FFFFFF,t_70)
-## 2、原理简介
- &nbsp;  &nbsp; &nbsp;  &nbsp;恒虚警检测技术（CFAR）是指雷达系统在保持虚警概率恒定条件下对接收机输出的信号与噪声作判别以确定目标信号是否存在的技术。
-  &nbsp;  &nbsp; &nbsp;  &nbsp;前提：由于接收机输出端中肯定存有噪声(包括大气噪声、人为噪声、内部噪声和杂波等)，而信号一般是叠加在噪声上的。这就需要在接收机输出的噪声或信号加噪声条件下，采用检测技术判别是否有目标信号。
-    &nbsp;  &nbsp; &nbsp;  &nbsp;误差概率：任何形式的判决必然存在着两种误差概率：发现概率和虚警概率。当接收机输出端存在目标回波信号，而判决时判为有目标的概率为Pd，判为无目标的概率为1-Pad。当接收机输出端只有噪声时，而判为有目标的概率为Pfa。由于噪声是随机变量，其特征可用概率密度函数表示，因此信号加噪声也是一随机变量
-  &nbsp;  &nbsp; &nbsp;  &nbsp; 具体过程：恒虚警检测器首先对输入的噪声进行处理后确定一个门限，将此门限与输入端信号相比，如输入端信号超过了此门限，则判为有目标，否则，判为无目标。  
-   &nbsp;  &nbsp; &nbsp;  &nbsp;  算法：①均值类CFRA：核心思想是通过对参考窗内采样数据取平均来估计背景功率。CA-CFAR（单元平均恒虚警）、GO-CFAR（最大选择恒虚警）、SO-CFAR（最小选择恒虚警）算法这三个是最经典的均值类CFAR算法。
-      &nbsp;  &nbsp;     &nbsp;  &nbsp; &nbsp;  &nbsp;     &nbsp;  &nbsp; &nbsp;  ②统计有序CFAR：核心思想：通过对参考窗内的数据由小到大排序选取其中第K个数值假设其为杂波背景噪声。OS-CFAR（有序统计恒虚警）为其经典算法。
+## 1. Content introduction
+  &nbsp; &nbsp; &nbsp; &nbsp;Use the MATLAB GUI design platform to design a multi-algorithm radar one-dimensional constant false alarm detection CFAR visual interface. By selecting the noise type, target type, algorithm type, manually inputting relevant parameters, the noise waveform and target are visually displayed. Detected echo-detection threshold waveform diagram. Run cfar.m to call the GUI for parameter input and output.
+  ![Insert image description here](https://img-blog.csdnimg.cn/20200513184019391.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjc5NTcz,size _16,color_FFFFFF,t_70)
+## 2. Introduction to the principle
+  &nbsp; &nbsp; &nbsp; &nbsp;Constant false alarm detection technology (CFAR) refers to a technology in which the radar system distinguishes the signal and noise output by the receiver to determine whether the target signal exists while maintaining a constant false alarm probability.
+   &nbsp; &nbsp; &nbsp; &nbsp;Premise: Since there must be noise (including atmospheric noise, man-made noise, internal noise and clutter, etc.) in the output of the receiver, the signal is generally superimposed on the noise. This requires using detection technology to determine whether there is a target signal under the condition of noise or signal plus noise output by the receiver.
+     &nbsp; &nbsp; &nbsp; &nbsp;Error probability: Any form of judgment must have two error probabilities: discovery probability and false alarm probability. When there is a target echo signal at the output end of the receiver, the probability that there is a target is Pd, and the probability that there is no target is 1-Pad. When there is only noise at the receiver output, the probability that there is a target is Pfa. Since noise is a random variable, its characteristics can be expressed by the probability density function, so the signal plus noise is also a random variable.
+   &nbsp; &nbsp; &nbsp; &nbsp; The specific process: the constant false alarm detector first processes the input noise and determines a threshold, and compares this threshold with the input signal. If the input signal exceeds this threshold, it is judged as There is a target, otherwise, it is judged as no target.
+    &nbsp; &nbsp; &nbsp; &nbsp; Algorithm: ① Mean type CFRA: The core idea is to estimate the background power by averaging the sampled data within the reference window. CA-CFAR (unit average constant false alarm), GO-CFAR (maximum selection constant false alarm), and SO-CFAR (minimum selection constant false alarm) algorithms are the most classic mean CFAR algorithms.
+       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Background noise. OS-CFAR (Ordered Statistical Constant False Alarm) is its classic algorithm.
       
-## 3、实现功能
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200513175854839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjc5NTcz,size_16,color_FFFFFF,t_70)
-实现的功能有：
+## 3. Implement functions
+![Insert image description here](https://img-blog.csdnimg.cn/20200513175854839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjc5NTcz,size _16,color_FFFFFF,t_70)
+The functions implemented are:
 
-1、类型选择：① 噪声类型：均匀背景噪声和杂波边缘背景噪声。均匀背景噪声为单一功率的噪声，在参数输入界面输入噪声功率2，噪声长度2，噪声方差即可（噪声功率1、噪声长度1被禁用）；杂波边缘背景噪声为两种不同功率噪声的组合，需要分别输入噪声1和噪声2的功率与长度，方差两噪声共用。
- &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;②目标类型：单目标与多目标。选择单目标时只需输入目标1的信噪比与位置即可（其他目标被禁用）；选择多目标时，需要分别输入目标1-4的信噪比与位置，其中当噪声类型为杂波边缘背景噪声时，还需分别输入靠近杂波边缘与杂波内目标的信噪比与位置，便于区别对比。
-  &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;③算法类型：CA-CFAR、GO-CFAR、SO-CFAR、OS-CFAR，四种算法任选一种即可。
+1. Type selection: ① Noise type: uniform background noise and clutter edge background noise. Uniform background noise is noise with a single power. Just enter noise power 2, noise length 2, and noise variance in the parameter input interface (noise power 1 and noise length 1 are disabled); clutter edge background noise is a combination of two different power noises. For combination, you need to input the power and length of noise 1 and noise 2 respectively, and the variance is shared by the two noises.
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When selecting a single target, you only need to enter the signal-to-noise ratio and location of target 1 (other targets are disabled); when selecting multiple targets, you need to enter the signal-to-noise ratio and location of targets 1-4 respectively. When the noise type is clutter When there is edge background noise, it is also necessary to input the signal-to-noise ratio and position of the target near the edge of the clutter and within the clutter to facilitate distinction and comparison.
+   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Just choose one.
 
-2、产生噪声&噪声波形图：完成噪声类型选择与噪声参数输入后，单击产生噪声按钮即可产生噪声波形图，在左下方进行显示。
+2. Generate noise & noise waveform: After completing the selection of noise type and input of noise parameters, click the Generate Noise button to generate a noise waveform, which is displayed in the lower left corner.
 
-3、参数输入：① 噪声功率1/2:噪声功率大小，单位db，变量名为db1、db2。
- &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;②噪声长度1/2:噪声的长度，其中噪声长度2为噪声总长（包括了噪声长度1），变量名为shape1、shape2。
-  &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;③噪声方差：两段噪声共用的方差，变量名为varience。
-    &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;④信噪比1/2/3/4/5/6:每个目标的信噪比，变量名为SNR1/2/3/4/5/6。
-    &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;⑤目标位置1/2/3/4、杂波边缘位置，杂波内位置：各目标位置，需要小于最大噪声长度，其中杂波边缘位置应为两段噪声交界处，杂波内位置应在杂波内，变量名为des1/2/3/4/5/6。
-   &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;⑥单元数目：总检测单元个数，变量名为N。
-   &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;⑦保护单元数目：目标的功率可能泄露到相邻的单元中，所以和目标相邻的数个单元不作为背景杂波的估计，作为保护单元，变量名为pro_N。
-   &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp;⑧虚警概率：恒虚警检测保持的错误检测概率，变量名为PAD。
+3. Parameter input: ① Noise power 1/2: noise power size, unit db, variable names db1, db2.
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; length 1), the variable names are shape1, shape2.
+   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Ratio, the variable name is SNR1/2/3/4/5/6.
+     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The target position needs to be less than the maximum noise length. The clutter edge position should be the junction of the two sections of noise. The position within the clutter should be within the clutter. The variable name is des1/2/3/4/5/6.
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Several units are not used as background clutter estimates, but are used as protection units, and the variable name is pro_N.
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 						 
 
-4、输出结果&回波-检测门限关系图：产生噪声，输入目标参数，选择算法后，单击输出结果按钮，即可在右侧得到回波-检测门限关系图。
+4. Output results & echo-detection threshold relationship diagram: Generate noise, enter target parameters, select the algorithm, and click the output result button to get the echo-detection threshold relationship diagram on the right.
 
-5、左/右图导出：分别将噪声波形图与回波-检测门限关系图导出保存，可选的格式有jpg、png、bmp、eps。
+5. Export left/right pictures: Export and save the noise waveform diagram and echo-detection threshold relationship diagram respectively. The optional formats are jpg, png, bmp, and eps.
 
-## 4、操作实例
-选取噪声类型为“杂波边缘背景噪声”，目标类型为多目标，算法类型选择CA-CFAR，参数输入为默认输入（噪声功率1/2：20db、30db；噪声长度1/2:100、200；噪声方差：200；信噪比1/2/3/4/5/6:15、12、8、5、5、5；目标位置1/2/3/4、杂波边缘位置、杂波内位置：30、40、50、60、95、120；单元个数：36；保护单元个数：2；虚警概率：0.001），得到结果如下图所示：![在这里插入图片描述](https://img-blog.csdnimg.cn/20200513183948353.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjc5NTcz,size_16,color_FFFFFF,t_70)从回波-检测门限图可以看出，该算法在低噪声环境中目标检测性能良好，实现恒虚警检测，但在杂波边缘与杂波内部检测性能显著下降。
-## 5、算法与参数分析
-算法分析：
-CA-CFAR：优点：损失率最少的一种算法；
- &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; 缺点：多目标遮掩，杂波边缘性能也欠佳；
- GO-CFAR：优点：杂波边缘区域虚警概率降低
-			 &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; 			缺点：多目标遮掩
-SO-CFAR： 优点：多目标效果有改进；
- &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; 			缺点：杂波边缘区域虚警概率提升；
- OS-CFAR：优点：多目标检测性能很好；
- &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp; 	缺点：杂波边缘区域虚警概率提高；
- 参数分析：
- 检测单元数：在相同信噪比下，检测单元数越多的CFAR对应的检测概率越高，但同时计算量加大。
- 虚警概率：在相同检测单元数目下，虚警概率的越高CFAR对应的检测概率越高，但虚警数也增多。
- 信噪比：当信噪比不断增加，检测概率也不断增加。
- 保护单元数：保护单元过大或过小都会使检测概率降低，应不同实验选取适中的保护单元数。
-## 6、声明
+## 4. Operation examples
+Select the noise type as "clutter edge background noise", the target type as multi-target, the algorithm type as CA-CFAR, and the parameter input as the default input (noise power 1/2: 20db, 30db; noise length 1/2: 100, 200 ;Noise variance: 200; Signal-to-noise ratio 1/2/3/4/5/6:15, 12, 8, 5, 5, 5; Target position 1/2/3/4, clutter edge position, clutter Internal position: 30, 40, 50, 60, 95, 120; number of units: 36; number of protection units: 2; false alarm probability: 0.001), the result is as shown in the figure below:! [Insert picture description here] (https://img-blog.csdnimg.cn/20200513183948353.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjc5NTcz,size_16,color_FFFF FF,t_70) It can be seen from the echo-detection threshold diagram that This algorithm has good target detection performance in low-noise environments and achieves constant false alarm detection, but its detection performance drops significantly at the edge of clutter and within the clutter.
+## 5. Algorithm and parameter analysis
+Analysis of Algorithms:
+CA-CFAR: Advantages: An algorithm with the lowest loss rate;
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  GO-CFAR: Advantages: Reduce the probability of false alarms in clutter edge areas
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Disadvantages: multi-target masking
+SO-CFAR: Advantages: Multi-target effects are improved;
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  OS-CFAR: Advantages: Multi-target detection performance is very good;
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  Parameter analysis:
+  Number of detection units: Under the same signal-to-noise ratio, a CFAR with more detection units has a higher detection probability, but at the same time, the amount of calculation increases.
+  False alarm probability: With the same number of detection units, the higher the false alarm probability, the higher the CFAR detection probability, but the number of false alarms also increases.
+  Signal-to-noise ratio: As the signal-to-noise ratio continues to increase, the detection probability also increases.
+  Number of protection units: If a protection unit is too large or too small, the detection probability will be reduced. A moderate number of protection units should be selected for different experiments.
+## 6. Statement
 
-本项目是本人基于其他CFAR文章的二次分析与开发，原文地址为：https://www.cnblogs.com/Mufasa/p/10900334.html，若有侵权请及时告知。
+This project is my secondary analysis and development based on other CFAR articles. The original address is: https://www.cnblogs.com/Mufasa/p/10900334.html. If there is any infringement, please inform me in time.
 
-CSDN地址为：https://blog.csdn.net/qq_42679573/article/details/106103729
+The CSDN address is: https://blog.csdn.net/qq_42679573/article/details/106103729
 
-新人学生博主，致力于信号分析。若觉得有用的话请关注一波呦~
+New student blogger, dedicated to signal analysis. If you find it useful, please give it a follow~
